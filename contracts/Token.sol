@@ -73,9 +73,4 @@ contract Token {
     totalTokens[_someone] = _newAmount;
     return true;
   }
-
-
-
-
-
 }
