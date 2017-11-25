@@ -1,0 +1,95 @@
+<!-- 128.199.253.56 -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blocker</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+</head>
+<body class="container">
+  <h1>Trading Platform</h1>
+  <div id=main>
+    <button id="sample" type="button" class="btn btn-block btn-lg" style="display: none"></button>
+  </div>
+</body>
+<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+    privateKey = '03ec9dbf0666fb0d9e4eb68206ab20460a6e2c8352062e246104c4f54bca9ff5'
+    publicKey = '0xD2434DCDFf28A29c7dC23a9951C9C4C55c196dba'
+
+    web3 = new Web3(new Web3.providers.HttpProvider("http://www.blockathon.asia:8545"));
+    TokenABI = JSON.parse("[{\"constant\":true,\"inputs\":[{\"name\":\"_someone\",\"type\":\"address\"}],\"name\":\"getAmountThisToken\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getIssuerAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_someone\",\"type\":\"address\"},{\"name\":\"_newAmount\",\"type\":\"uint256\"}],\"name\":\"setAmoutThisToken\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"tokenShops\",\"outputs\":[{\"name\":\"isActived\",\"type\":\"bool\"},{\"name\":\"amountTokens\",\"type\":\"uint256\"},{\"name\":\"tokenPrice\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"TokenName\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"TokenIssuerAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_from\",\"type\":\"address\"}],\"name\":\"buyTokens\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_amountTokens\",\"type\":\"uint256\"},{\"name\":\"_tokenPrice\",\"type\":\"uint256\"}],\"name\":\"sellTokens\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getNameThisToken\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_tokenIssuer\",\"type\":\"address\"},{\"name\":\"_tokenName\",\"type\":\"bytes32\"},{\"name\":\"_amountTokens\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"_from\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_amount\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"_tokenPrice\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"_tokenIssuerAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_tokenName\",\"type\":\"bytes32\"}],\"name\":\"SellToken_Ether\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"_from\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_to\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_totalTokenBuy\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"_tokenIssuerAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_tokenName\",\"type\":\"bytes32\"}],\"name\":\"BuyToken_Ehter\",\"type\":\"event\"}]");
+    TradeTokenABI = JSON.parse("[{\"constant\":false,\"inputs\":[],\"name\":\"getPairToken\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"someOneAccept\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"Tok\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_tokenAType\",\"type\":\"address\"},{\"name\":\"_amountA\",\"type\":\"uint256\"},{\"name\":\"_tokenBType\",\"type\":\"address\"},{\"name\":\"_amountB\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"_A_Actor\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_amountA\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"_B_Actor\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_tokenBAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_amountB\",\"type\":\"uint256\"}],\"name\":\"exChangeToken\",\"type\":\"event\"}]")
+    Token = web3.eth.contract(TokenABI);
+    TradeToken = web3.eth.contract(TradeTokenABI);
+
+
+
+    // In your nodejs console, execute contractInstance.address to get the address at which the contract is deployed and change the line below to use your deployed address
+    // contractInstance = VotingContract.at('0x2a9c1d265d06d47e8f7b00ffa987c9185aecf672');
+    // candidates = {"Rama": "candidate-1", "Nick": "candidate-2", "Jose": "candidate-3"}
+
+    function voteForCandidate() {
+        candidateName = $("#candidate").val();
+        contractInstance.voteForCandidate(candidateName, {from: web3.eth.accounts[0]}, function() {
+            let div_id = candidates[candidateName];
+            $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
+        });
+    }
+
+    function buyTokens(element) {
+        contractAddress = $(element).attr('address')
+        tokenName = $(element).attr('token_name')
+
+        tokenInstance = Token.at(contractAddress)
+
+        issuerAddress = tokenInstance.getIssuerAddress.call()
+        console.log(issuerAddress)
+
+        tokenInstance.buyTokens(issuerAddress, {from: publicKey}, function(){
+            amount = tokenInstance.getAmountThisToken.call(publicKey)
+            console.log('done', amount)
+        })
+    }
+
+    function getListOfContracts() {
+        $.ajax({
+            url : 'http://128.199.253.56:3000/v1/contracts',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                jsonData = JSON.parse(data)
+
+                for (var i = jsonData.length - 1; i >= 0; i--) {
+                    console.log(jsonData[i]);
+                    newBtn = $("#sample").clone().appendTo("#main");
+                    newBtn.attr('id', 'btn-'+jsonData[i].Address);
+                    newBtn.attr('address', jsonData[i].Address);
+                    newBtn.attr('token_name', jsonData[i].TokenName);
+                    newBtn.attr('onclick', 'buyTokens(this)');
+                    newBtn.show();
+                    newBtn.text(jsonData[i].TokenName)
+                }
+            },
+            error : function(request,error)
+            {
+                alert("Request: "+JSON.stringify(request));
+            }
+        });
+    }
+
+
+    $(document).ready(function() {
+        getListOfContracts()
+    });
+</script>
+</html>
+

@@ -67,7 +67,7 @@ contract Token {
     return totalTokens[_someone];
   }
 
-  function getIssuerAddress() public returns (address){
+  function getIssuerAddress() public constant returns (address){
     return TokenIssuerAddress;
   }
 
