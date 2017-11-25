@@ -164,11 +164,11 @@ contract DDContractList {
     ListOfContracts.push(_address);
   }
 
-  function getLength() returns (uint) {
+  function getLength() constant returns (uint) {
     return ListOfContracts.length;
   }
 
-  function getContracList() returns (address[]) {
+  function getContracList() constant returns (address[]) {
     return ListOfContracts;
   }
 

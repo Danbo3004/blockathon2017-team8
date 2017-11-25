@@ -6,9 +6,9 @@ import (
 	"io"
 	"net/http"
 
-	"../model"
 	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
+	"github.com/infinityblockchainlabs/blockathon2017-team8/model"
 	uuid "github.com/satori/go.uuid"
 )
 
