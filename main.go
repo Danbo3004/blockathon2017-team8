@@ -26,6 +26,6 @@ func main() {
 
 	router := cmd.NewRouter()
 	logrus.Info("Listen in :3000")
-	err = http.ListenAndServe(":3000", handlers.CORS(router))
+	err = http.ListenAndServe(":3000", handlers.CORS()(router))
 	logrus.Fatal("Error occur while serving requests", err)
 }
