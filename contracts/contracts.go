@@ -265,7 +265,10 @@ func (c *EthClient) GetLengthOfDDContractList() (int64, error) {
 		return 0, err
 	}
 	result, err := contractor.GetLength(&bind.CallOpts{Pending: true})
-	return result.Int64(), err
+	if err != nil {
+		return nil, err
+	}
+	return result.Int64(), nil
 }
 
 func (c *EthClient) GetListExistingContracts() (*[]string, error) {
