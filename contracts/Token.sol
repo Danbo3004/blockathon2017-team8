@@ -67,6 +67,10 @@ contract Token {
     return totalTokens[_someone];
   }
 
+  function getIssuerAddress() public returns (address){
+    return TokenIssuerAddress;
+  }
+
   function setAmoutThisToken(address _someone, uint _newAmount) returns (bool) {
     // 1. Check iff address of msg.sender valid
     // 2. Set new amount Token
