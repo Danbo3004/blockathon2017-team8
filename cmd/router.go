@@ -30,11 +30,17 @@ var routes = Routes{
 		HandlerFunc: GetCompany,
 	},
 	Route{
-		Name:        "RegisterUser",
-		Method:      "POST",
-		Pattern:     "/users/register",
-		HandlerFunc: RegisterUser,
+		Name:        "GetAllContracts",
+		Method:      "GET",
+		Pattern:     "/contracts",
+		HandlerFunc: GetAllContracts,
 	},
+	// Route{
+	// 	Name:        "RegisterUser",
+	// 	Method:      "POST",
+	// 	Pattern:     "/users/register",
+	// 	HandlerFunc: RegisterUser,
+	// },
 }
 
 func NewRouter() *mux.Router {

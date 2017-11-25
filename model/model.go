@@ -3,9 +3,10 @@ package model
 type Company struct {
 	ID            string `json:"id"`
 	Name          string `json:"name"`
-	NumberOfToken int    `json:"token"`
+	NumberOfToken int64  `json:"number_of_token"`
 	TokenName     string `json:"token_name"`
 	Owner         string `json:"owner"`
+	IssuerAddress string `json:"issuer_address"`
 }
 
 type User struct {

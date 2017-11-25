@@ -2,6 +2,7 @@ package contracts
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"math/big"
 	"os"
@@ -13,8 +14,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
+	// "github.com/ethereum/go-ethereum/core/types"
 )
 
 const ddContractAddressFile = "blocker_ddcontract.txt"
@@ -91,12 +92,12 @@ func InitClient(url, ownerKey, ownerPassowrd string) (*EthClient, error) {
 		DDContractAddr:    ddContractAddr,
 	}
 
-	// Just test some function :)
-	_newContractAddr, err := client.DeployNewContract(testIssuerA, "A-Token", 10)
-	if err != nil {
-		logrus.Errorln(err)
-		return nil, err
-	}
+	// // Just test some function :)
+	// _, err = client.DeployNewContract(testIssuerA, "A-Token", 10)
+	// if err != nil {
+	// 	logrus.Errorln(err)
+	// 	return nil, err
+	// }
 
 	// Check ...
 	length, err := client.GetLengthOfDDContractList()
@@ -113,30 +114,30 @@ func InitClient(url, ownerKey, ownerPassowrd string) (*EthClient, error) {
 	}
 	logrus.Infof("%v", list)
 
-	// Sell
-	logrus.Infof("NewContractAddr %s", _newContractAddr)
-	_tran, err := client.SellTokens(_newContractAddr, testIssuerA, 7, 1*szabo)
-	if err != nil {
-		logrus.Errorln(err)
-		return nil, err
-	}
-	pp.Println(string(_tran.Data()))
+	// // Sell
+	// logrus.Infof("NewContractAddr %s", _newContractAddr)
+	// _tran, err := client.SellTokens(_newContractAddr, testIssuerA, 7, 1*szabo)
+	// if err != nil {
+	// 	logrus.Errorln(err)
+	// 	return nil, err
+	// }
+	// pp.Println(string(_tran.Data()))
 
-	// Buy
-	_tran, err = client.BuyTokens(_newContractAddr, testCustomerX, testIssuerA, 5)
-	if err != nil {
-		logrus.Errorln(err)
-		return nil, err
-	}
-	pp.Println(string(_tran.Data()))
+	// // Buy
+	// _tran, err = client.BuyTokens(_newContractAddr, testCustomerX, testIssuerA, 5)
+	// if err != nil {
+	// 	logrus.Errorln(err)
+	// 	return nil, err
+	// }
+	// pp.Println(string(_tran.Data()))
 
-	// Buy again
-	_tran, err = client.BuyTokens(_newContractAddr, testCustomerX, testIssuerA, 2)
-	if err != nil {
-		logrus.Errorln(err)
-		return nil, err
-	}
-	pp.Println(string(_tran.Data()))
+	// // Buy again
+	// _tran, err = client.BuyTokens(_newContractAddr, testCustomerX, testIssuerA, 2)
+	// if err != nil {
+	// 	logrus.Errorln(err)
+	// 	return nil, err
+	// }
+	// pp.Println(string(_tran.Data()))
 
 	return client, nil
 }
@@ -169,7 +170,7 @@ func (c *EthClient) DeployNewContract(issuerAddress, tokenName string, amount in
 	for i := 0; i < 60; i++ {
 		name, err := contractor.TokenName(&bind.CallOpts{Pending: true})
 		if err != nil {
-			logrus.Warnf("Failed to retrieve pending name: %v", err)
+			fmt.Println("Waiting for verifying... ")
 			time.Sleep(time.Second)
 			continue
 		}
@@ -181,49 +182,49 @@ func (c *EthClient) DeployNewContract(issuerAddress, tokenName string, amount in
 	return "", errors.New("Local node may be busy...")
 }
 
-func (c *EthClient) BuyTokens(contractAddress, buyerAddress, sellerAddress string, amount int64) (*types.Transaction, error) {
-	contractor, err := c.GetContract(contractAddress)
-	if err != nil {
-		logrus.Errorln(err)
-		return nil, err
-	}
+// func (c *EthClient) BuyTokens(contractAddress, buyerAddress, sellerAddress string, amount int64) (*types.Transaction, error) {
+// 	contractor, err := c.GetContract(contractAddress)
+// 	if err != nil {
+// 		logrus.Errorln(err)
+// 		return nil, err
+// 	}
 
-	_from := common.HexToAddress(sellerAddress)
-	return contractor.BuyTokens(&bind.TransactOpts{
-		From:     common.HexToAddress(buyerAddress), // Ethereum account to send the transaction from
-		Value:    big.NewInt(amount),                // Funds to transfer along along the transaction (nil = 0 = no funds)
-		GasPrice: nil,                               // Gas price to use for the transaction execution (nil = gas price oracle)
-		GasLimit: nil,                               // Gas limit to set for the transaction execution (nil = estimate + 10%)
-		// Nonce  *big.Int       // Nonce to use for the transaction execution (nil = use pending state)
-		// Signer: c.Auth.Signer, // Method to use for signing the transaction (mandatory)
-		// Context context.Context // Network context to support cancellation and timeouts (nil = no timeout)
-	}, _from)
-}
+// 	_from := common.HexToAddress(sellerAddress)
+// 	return contractor.BuyTokens(&bind.TransactOpts{
+// 		From:     common.HexToAddress(buyerAddress), // Ethereum account to send the transaction from
+// 		Value:    big.NewInt(amount),                // Funds to transfer along along the transaction (nil = 0 = no funds)
+// 		GasPrice: nil,                               // Gas price to use for the transaction execution (nil = gas price oracle)
+// 		GasLimit: nil,                               // Gas limit to set for the transaction execution (nil = estimate + 10%)
+// 		// Nonce  *big.Int       // Nonce to use for the transaction execution (nil = use pending state)
+// 		// Signer: c.Auth.Signer, // Method to use for signing the transaction (mandatory)
+// 		// Context context.Context // Network context to support cancellation and timeouts (nil = no timeout)
+// 	}, _from)
+// }
 
-func (c *EthClient) SellTokens(contractAddress, sellerAddress string, amount, price int64) (*types.Transaction, error) {
-	contractInstance, err := c.GetContract(contractAddress)
-	if err != nil {
-		logrus.Errorf("Get contract failed: %v", err)
-		return nil, err
-	}
+// func (c *EthClient) SellTokens(contractAddress, sellerAddress string, amount, price int64) (*types.Transaction, error) {
+// 	contractInstance, err := c.GetContract(contractAddress)
+// 	if err != nil {
+// 		logrus.Errorf("Get contract failed: %v", err)
+// 		return nil, err
+// 	}
 
-	_trans, err := contractInstance.SellTokens(&bind.TransactOpts{
-		From: common.HexToAddress(sellerAddress), // Ethereum account to send the transaction from
-		// Value: big.NewInt(amount), // Funds to transfer along along the transaction (nil = 0 = no funds)
-		GasPrice: nil, // Gas price to use for the transaction execution (nil = gas price oracle)
-		GasLimit: nil, // Gas limit to set for the transaction execution (nil = estimate + 10%)
-		// Nonce  *big.Int       // Nonce to use for the transaction execution (nil = use pending state)
-		Signer: c.Auth.Signer, // Method to use for signing the transaction (mandatory)
-		// Context context.Context // Network context to support cancellation and timeouts (nil = no timeout)
-	}, big.NewInt(amount), big.NewInt(price))
+// 	_trans, err := contractInstance.SellTokens(&bind.TransactOpts{
+// 		From: common.HexToAddress(sellerAddress), // Ethereum account to send the transaction from
+// 		// Value: big.NewInt(amount), // Funds to transfer along along the transaction (nil = 0 = no funds)
+// 		GasPrice: nil, // Gas price to use for the transaction execution (nil = gas price oracle)
+// 		GasLimit: nil, // Gas limit to set for the transaction execution (nil = estimate + 10%)
+// 		// Nonce  *big.Int       // Nonce to use for the transaction execution (nil = use pending state)
+// 		Signer: c.Auth.Signer, // Method to use for signing the transaction (mandatory)
+// 		// Context context.Context // Network context to support cancellation and timeouts (nil = no timeout)
+// 	}, big.NewInt(amount), big.NewInt(price))
 
-	if err != nil {
-		logrus.Errorf("SellTokens: %v", err)
-		return nil, err
-	}
+// 	if err != nil {
+// 		logrus.Errorf("SellTokens: %v", err)
+// 		return nil, err
+// 	}
 
-	return _trans, nil
-}
+// 	return _trans, nil
+// }
 
 func (c *EthClient) CheckAndPushContractAddress(contractAddress common.Address) error {
 	logrus.Infof("contract address: %s", contractAddress.Hex())
@@ -282,10 +283,23 @@ func (c *EthClient) GetListExistingContracts() (*[]string, error) {
 
 	result := []string{}
 	for _, item := range list {
-		if item.Hex() == "" {
+		addr := strings.ToLower(item.Hex())
+		if addr == "" {
 			continue
 		}
-		result = append(result, item.Hex())
+
+		fmt.Println(addr)
+		contractInstance, err := c.GetContract(addr)
+		if err != nil {
+			return nil, err
+		}
+
+		name, err := contractInstance.TokenName(&bind.CallOpts{Pending: true})
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, strings.Trim(addr+"/"+string(name[:]), "\x00"))
 	}
 
 	return &result, nil

@@ -131,6 +131,8 @@ contract TradeToken {
     setTotalAmountToken(TokenBType, A_Actor, totalTokenB_ofA);
 
     exChangeToken(A_Actor, TokenAType, AmountA, B_Actor, TokenBType, AmountB);
+
+    // TODO: Give trading fee to platform owner (blocker)
   }
 
   function getPairToken() returns (address[]) {
