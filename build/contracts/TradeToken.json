@@ -1,0 +1,191 @@
+{
+  "contractName": "TradeToken",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820df063b8270c312d2ab57065280aef9daa695c17e21d54d00cce37dd62c52a12d0029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820df063b8270c312d2ab57065280aef9daa695c17e21d54d00cce37dd62c52a12d0029",
+  "sourceMap": "48:97:1:-;;;114:28;;;;;;;;48:97;;;;;;",
+  "deployedSourceMap": "48:97:1:-;;;;;",
+  "source": "pragma solidity ^0.4.17;\nimport \"./Token.sol\";\n\ncontract TradeToken {\n\n  mapping (address => Token) TokenList;\n\n  function TradeToken() {\n\n  }\n\n}\n",
+  "sourcePath": "/home/blocker/Desktop/Blockathon/blockathon2017-team8/contracts/TradeToken.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/home/blocker/Desktop/Blockathon/blockathon2017-team8/contracts/TradeToken.sol",
+      "exportedSymbols": {
+        "TradeToken": [
+          205
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".17"
+          ]
+        },
+        "id": 195,
+        "name": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 194,
+          "absolutePath": "/home/blocker/Desktop/Blockathon/blockathon2017-team8/contracts/Token.sol",
+          "file": "./Token.sol",
+          "scope": 206,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 196,
+        "name": "ImportDirective",
+        "src": "25:21:1"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            205
+          ],
+          "name": "TradeToken",
+          "scope": 206
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "TokenList",
+              "scope": 205,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "mapping(address => contract Token)",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "type": "mapping(address => contract Token)"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 197,
+                    "name": "ElementaryTypeName",
+                    "src": "82:7:1"
+                  },
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "Token",
+                      "referencedDeclaration": 193,
+                      "type": "contract Token"
+                    },
+                    "id": 198,
+                    "name": "UserDefinedTypeName",
+                    "src": "93:5:1"
+                  }
+                ],
+                "id": 199,
+                "name": "Mapping",
+                "src": "73:26:1"
+              }
+            ],
+            "id": 200,
+            "name": "VariableDeclaration",
+            "src": "73:36:1"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": true,
+              "modifiers": [
+                null
+              ],
+              "name": "TradeToken",
+              "payable": false,
+              "scope": 205,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 201,
+                "name": "ParameterList",
+                "src": "133:2:1"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 202,
+                "name": "ParameterList",
+                "src": "136:0:1"
+              },
+              {
+                "attributes": {
+                  "statements": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 203,
+                "name": "Block",
+                "src": "136:6:1"
+              }
+            ],
+            "id": 204,
+            "name": "FunctionDefinition",
+            "src": "114:28:1"
+          }
+        ],
+        "id": 205,
+        "name": "ContractDefinition",
+        "src": "48:97:1"
+      }
+    ],
+    "id": 206,
+    "name": "SourceUnit",
+    "src": "0:146:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-25T01:39:25.541Z"
+}
