@@ -23,7 +23,7 @@ func main() {
 	}
 
 	router := cmd.NewRouter()
-	logrus.Info("Listen in :8080")
-	err = http.ListenAndServe(":8080", router)
+	logrus.Info("Listen in :3000")
+	err = http.ListenAndServe(":3000", router)
 	logrus.Fatal("Error occur while serving requests", err)
 }
