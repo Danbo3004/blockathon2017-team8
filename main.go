@@ -3,9 +3,9 @@ package main
 import (
 	"net/http"
 
-	"./cmd"
 	"github.com/Sirupsen/logrus"
 
+	"github.com/infinityblockchainlabs/blockathon2017-team8/cmd"
 	"github.com/infinityblockchainlabs/blockathon2017-team8/contracts"
 )
 
@@ -15,6 +15,8 @@ const (
 )
 
 func main() {
+	logrus.SetLevel(logrus.DebugLevel)
+
 	_, err := contracts.InitClient(url, key, "innerpeace")
 	if err != nil {
 		panic("wtf")

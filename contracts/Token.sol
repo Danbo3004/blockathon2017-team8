@@ -131,6 +131,8 @@ contract TradeToken {
     setTotalAmountToken(TokenBType, A_Actor, totalTokenB_ofA);
 
     exChangeToken(A_Actor, TokenAType, AmountA, B_Actor, TokenBType, AmountB);
+
+    // TODO: Give trading fee to platform owner (blocker)
   }
 
   function getPairToken() returns (address[]) {
@@ -164,11 +166,11 @@ contract DDContractList {
     ListOfContracts.push(_address);
   }
 
-  function getLength() returns (uint) {
+  function getLength() constant returns (uint) {
     return ListOfContracts.length;
   }
 
-  function getContracList() returns (address[]) {
+  function getContracList() constant returns (address[]) {
     return ListOfContracts;
   }
 
