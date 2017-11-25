@@ -6,3 +6,8 @@ generate:
 
 list:
 	curl localhost:8080/v1/contracts
+
+build-docker:
+	@echo Build docker image
+	GOOS=linux GOARCH=amd64 go build -o blockathon-backend-linux-amd64 main.go
+	docker build --rm -t blocker .
