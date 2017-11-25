@@ -13,11 +13,241 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 )
 
+// DDContractListABI is the input ABI used to generate the binding from.
+const DDContractListABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"_deleteIndex\",\"type\":\"uint256\"}],\"name\":\"deleteByIndex\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"getContracList\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"push\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"getLength\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
+
+// DDContractListBin is the compiled bytecode used for deploying new contracts.
+const DDContractListBin = `0x6060604052341561000f57600080fd5b6102f28061001e6000396000f3006060604052600436106100615763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416631e69607e81146100665780637473aa771461007e57806389b09de7146100e4578063be1c766b14610110575b600080fd5b341561007157600080fd5b61007c600435610135565b005b341561008957600080fd5b610091610199565b60405160208082528190810183818151815260200191508051906020019060200280838360005b838110156100d05780820151838201526020016100b8565b505050509050019250505060405180910390f35b34156100ef57600080fd5b61007c73ffffffffffffffffffffffffffffffffffffffff6004351661020f565b341561011b57600080fd5b610123610267565b60405190815260200160405180910390f35b600054811061014357600080fd5b6000808281548110151561015357fe5b6000918252602090912001805473ffffffffffffffffffffffffffffffffffffffff191673ffffffffffffffffffffffffffffffffffffffff9290921691909117905550565b6101a161026d565b600080548060200260200160405190810160405280929190818152602001828054801561020457602002820191906000526020600020905b815473ffffffffffffffffffffffffffffffffffffffff1681526001909101906020018083116101d9575b505050505090505b90565b6000805460018101610221838261027f565b506000918252602090912001805473ffffffffffffffffffffffffffffffffffffffff191673ffffffffffffffffffffffffffffffffffffffff92909216919091179055565b60005490565b60206040519081016040526000815290565b8154818355818115116102a3576000838152602090206102a39181019083016102a8565b505050565b61020c91905b808211156102c257600081556001016102ae565b50905600a165627a7a723058207b7dcbdcb5baa6ffa0f8146f54d27517ffff543ee99581daa60d99f5bdd81d520029`
+
+// DeployDDContractList deploys a new Ethereum contract, binding an instance of DDContractList to it.
+func DeployDDContractList(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *DDContractList, error) {
+	parsed, err := abi.JSON(strings.NewReader(DDContractListABI))
+	if err != nil {
+		return common.Address{}, nil, nil, err
+	}
+	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(DDContractListBin), backend)
+	if err != nil {
+		return common.Address{}, nil, nil, err
+	}
+	return address, tx, &DDContractList{DDContractListCaller: DDContractListCaller{contract: contract}, DDContractListTransactor: DDContractListTransactor{contract: contract}}, nil
+}
+
+// DDContractList is an auto generated Go binding around an Ethereum contract.
+type DDContractList struct {
+	DDContractListCaller     // Read-only binding to the contract
+	DDContractListTransactor // Write-only binding to the contract
+}
+
+// DDContractListCaller is an auto generated read-only Go binding around an Ethereum contract.
+type DDContractListCaller struct {
+	contract *bind.BoundContract // Generic contract wrapper for the low level calls
+}
+
+// DDContractListTransactor is an auto generated write-only Go binding around an Ethereum contract.
+type DDContractListTransactor struct {
+	contract *bind.BoundContract // Generic contract wrapper for the low level calls
+}
+
+// DDContractListSession is an auto generated Go binding around an Ethereum contract,
+// with pre-set call and transact options.
+type DDContractListSession struct {
+	Contract     *DDContractList   // Generic contract binding to set the session for
+	CallOpts     bind.CallOpts     // Call options to use throughout this session
+	TransactOpts bind.TransactOpts // Transaction auth options to use throughout this session
+}
+
+// DDContractListCallerSession is an auto generated read-only Go binding around an Ethereum contract,
+// with pre-set call options.
+type DDContractListCallerSession struct {
+	Contract *DDContractListCaller // Generic contract caller binding to set the session for
+	CallOpts bind.CallOpts         // Call options to use throughout this session
+}
+
+// DDContractListTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
+// with pre-set transact options.
+type DDContractListTransactorSession struct {
+	Contract     *DDContractListTransactor // Generic contract transactor binding to set the session for
+	TransactOpts bind.TransactOpts         // Transaction auth options to use throughout this session
+}
+
+// DDContractListRaw is an auto generated low-level Go binding around an Ethereum contract.
+type DDContractListRaw struct {
+	Contract *DDContractList // Generic contract binding to access the raw methods on
+}
+
+// DDContractListCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
+type DDContractListCallerRaw struct {
+	Contract *DDContractListCaller // Generic read-only contract binding to access the raw methods on
+}
+
+// DDContractListTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
+type DDContractListTransactorRaw struct {
+	Contract *DDContractListTransactor // Generic write-only contract binding to access the raw methods on
+}
+
+// NewDDContractList creates a new instance of DDContractList, bound to a specific deployed contract.
+func NewDDContractList(address common.Address, backend bind.ContractBackend) (*DDContractList, error) {
+	contract, err := bindDDContractList(address, backend, backend)
+	if err != nil {
+		return nil, err
+	}
+	return &DDContractList{DDContractListCaller: DDContractListCaller{contract: contract}, DDContractListTransactor: DDContractListTransactor{contract: contract}}, nil
+}
+
+// NewDDContractListCaller creates a new read-only instance of DDContractList, bound to a specific deployed contract.
+func NewDDContractListCaller(address common.Address, caller bind.ContractCaller) (*DDContractListCaller, error) {
+	contract, err := bindDDContractList(address, caller, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &DDContractListCaller{contract: contract}, nil
+}
+
+// NewDDContractListTransactor creates a new write-only instance of DDContractList, bound to a specific deployed contract.
+func NewDDContractListTransactor(address common.Address, transactor bind.ContractTransactor) (*DDContractListTransactor, error) {
+	contract, err := bindDDContractList(address, nil, transactor)
+	if err != nil {
+		return nil, err
+	}
+	return &DDContractListTransactor{contract: contract}, nil
+}
+
+// bindDDContractList binds a generic wrapper to an already deployed contract.
+func bindDDContractList(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor) (*bind.BoundContract, error) {
+	parsed, err := abi.JSON(strings.NewReader(DDContractListABI))
+	if err != nil {
+		return nil, err
+	}
+	return bind.NewBoundContract(address, parsed, caller, transactor), nil
+}
+
+// Call invokes the (constant) contract method with params as input values and
+// sets the output to result. The result type might be a single field for simple
+// returns, a slice of interfaces for anonymous returns and a struct for named
+// returns.
+func (_DDContractList *DDContractListRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
+	return _DDContractList.Contract.DDContractListCaller.contract.Call(opts, result, method, params...)
+}
+
+// Transfer initiates a plain transaction to move funds to the contract, calling
+// its default method if one is available.
+func (_DDContractList *DDContractListRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _DDContractList.Contract.DDContractListTransactor.contract.Transfer(opts)
+}
+
+// Transact invokes the (paid) contract method with params as input values.
+func (_DDContractList *DDContractListRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _DDContractList.Contract.DDContractListTransactor.contract.Transact(opts, method, params...)
+}
+
+// Call invokes the (constant) contract method with params as input values and
+// sets the output to result. The result type might be a single field for simple
+// returns, a slice of interfaces for anonymous returns and a struct for named
+// returns.
+func (_DDContractList *DDContractListCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
+	return _DDContractList.Contract.contract.Call(opts, result, method, params...)
+}
+
+// Transfer initiates a plain transaction to move funds to the contract, calling
+// its default method if one is available.
+func (_DDContractList *DDContractListTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _DDContractList.Contract.contract.Transfer(opts)
+}
+
+// Transact invokes the (paid) contract method with params as input values.
+func (_DDContractList *DDContractListTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _DDContractList.Contract.contract.Transact(opts, method, params...)
+}
+
+// DeleteByIndex is a paid mutator transaction binding the contract method 0x1e69607e.
+//
+// Solidity: function deleteByIndex(_deleteIndex uint256) returns()
+func (_DDContractList *DDContractListTransactor) DeleteByIndex(opts *bind.TransactOpts, _deleteIndex *big.Int) (*types.Transaction, error) {
+	return _DDContractList.contract.Transact(opts, "deleteByIndex", _deleteIndex)
+}
+
+// DeleteByIndex is a paid mutator transaction binding the contract method 0x1e69607e.
+//
+// Solidity: function deleteByIndex(_deleteIndex uint256) returns()
+func (_DDContractList *DDContractListSession) DeleteByIndex(_deleteIndex *big.Int) (*types.Transaction, error) {
+	return _DDContractList.Contract.DeleteByIndex(&_DDContractList.TransactOpts, _deleteIndex)
+}
+
+// DeleteByIndex is a paid mutator transaction binding the contract method 0x1e69607e.
+//
+// Solidity: function deleteByIndex(_deleteIndex uint256) returns()
+func (_DDContractList *DDContractListTransactorSession) DeleteByIndex(_deleteIndex *big.Int) (*types.Transaction, error) {
+	return _DDContractList.Contract.DeleteByIndex(&_DDContractList.TransactOpts, _deleteIndex)
+}
+
+// GetContracList is a paid mutator transaction binding the contract method 0x7473aa77.
+//
+// Solidity: function getContracList() returns(address[])
+func (_DDContractList *DDContractListTransactor) GetContracList(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _DDContractList.contract.Transact(opts, "getContracList")
+}
+
+// GetContracList is a paid mutator transaction binding the contract method 0x7473aa77.
+//
+// Solidity: function getContracList() returns(address[])
+func (_DDContractList *DDContractListSession) GetContracList() (*types.Transaction, error) {
+	return _DDContractList.Contract.GetContracList(&_DDContractList.TransactOpts)
+}
+
+// GetContracList is a paid mutator transaction binding the contract method 0x7473aa77.
+//
+// Solidity: function getContracList() returns(address[])
+func (_DDContractList *DDContractListTransactorSession) GetContracList() (*types.Transaction, error) {
+	return _DDContractList.Contract.GetContracList(&_DDContractList.TransactOpts)
+}
+
+// GetLength is a paid mutator transaction binding the contract method 0xbe1c766b.
+//
+// Solidity: function getLength() returns(uint256)
+func (_DDContractList *DDContractListTransactor) GetLength(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _DDContractList.contract.Transact(opts, "getLength")
+}
+
+// GetLength is a paid mutator transaction binding the contract method 0xbe1c766b.
+//
+// Solidity: function getLength() returns(uint256)
+func (_DDContractList *DDContractListSession) GetLength() (*types.Transaction, error) {
+	return _DDContractList.Contract.GetLength(&_DDContractList.TransactOpts)
+}
+
+// GetLength is a paid mutator transaction binding the contract method 0xbe1c766b.
+//
+// Solidity: function getLength() returns(uint256)
+func (_DDContractList *DDContractListTransactorSession) GetLength() (*types.Transaction, error) {
+	return _DDContractList.Contract.GetLength(&_DDContractList.TransactOpts)
+}
+
+// Push is a paid mutator transaction binding the contract method 0x89b09de7.
+//
+// Solidity: function push(_address address) returns()
+func (_DDContractList *DDContractListTransactor) Push(opts *bind.TransactOpts, _address common.Address) (*types.Transaction, error) {
+	return _DDContractList.contract.Transact(opts, "push", _address)
+}
+
+// Push is a paid mutator transaction binding the contract method 0x89b09de7.
+//
+// Solidity: function push(_address address) returns()
+func (_DDContractList *DDContractListSession) Push(_address common.Address) (*types.Transaction, error) {
+	return _DDContractList.Contract.Push(&_DDContractList.TransactOpts, _address)
+}
+
+// Push is a paid mutator transaction binding the contract method 0x89b09de7.
+//
+// Solidity: function push(_address address) returns()
+func (_DDContractList *DDContractListTransactorSession) Push(_address common.Address) (*types.Transaction, error) {
+	return _DDContractList.Contract.Push(&_DDContractList.TransactOpts, _address)
+}
+
 // TokenABI is the input ABI used to generate the binding from.
 const TokenABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"_someone\",\"type\":\"address\"}],\"name\":\"getAmountThisToken\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_someone\",\"type\":\"address\"},{\"name\":\"_newAmount\",\"type\":\"uint256\"}],\"name\":\"setAmoutThisToken\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"tokenShops\",\"outputs\":[{\"name\":\"isActived\",\"type\":\"bool\"},{\"name\":\"amountTokens\",\"type\":\"uint256\"},{\"name\":\"tokenPrice\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"TokenName\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"TokenIssuerAddress\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_from\",\"type\":\"address\"}],\"name\":\"buyTokens\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_amountTokens\",\"type\":\"uint256\"},{\"name\":\"_tokenPrice\",\"type\":\"uint256\"}],\"name\":\"sellTokens\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getNameThisToken\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_tokenIssuer\",\"type\":\"address\"},{\"name\":\"_tokenName\",\"type\":\"bytes32\"},{\"name\":\"_amountTokens\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"_from\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_amount\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"_tokenPrice\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"_tokenIssuerAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_tokenName\",\"type\":\"bytes32\"}],\"name\":\"SellToken_Ether\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"_from\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_to\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_totalTokenBuy\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"_tokenIssuerAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_tokenName\",\"type\":\"bytes32\"}],\"name\":\"BuyToken_Ehter\",\"type\":\"event\"}]"
 
 // TokenBin is the compiled bytecode used for deploying new contracts.
-const TokenBin = `0x6060604052341561000f57600080fd5b60405160608061054683398101604052808051919060200180519190602001805160008054600160a060020a031916600160a060020a039687161780825590951685526003602052604085205550506001556104d590819061007190396000f30060606040526004361061008d5763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632e6cc053811461009257806357304815146100c3578063593fa374146100f9578063b6d7855a1461013e578063c25d011414610151578063ec8ac4d814610180578063ed9772b614610196578063fe3939f7146101af575b600080fd5b341561009d57600080fd5b6100b1600160a060020a03600435166101c2565b60405190815260200160405180910390f35b34156100ce57600080fd5b6100e5600160a060020a03600435166024356101dd565b604051901515815260200160405180910390f35b341561010457600080fd5b610118600160a060020a03600435166101fd565b604051921515835260208301919091526040808301919091526060909101905180910390f35b341561014957600080fd5b6100b1610223565b341561015c57600080fd5b610164610229565b604051600160a060020a03909116815260200160405180910390f35b610194600160a060020a0360043516610238565b005b34156101a157600080fd5b6101946004356024356103a1565b34156101ba57600080fd5b6100b16104a3565b600160a060020a031660009081526003602052604090205490565b600160a060020a0391909116600090815260036020526040902055600190565b600260208190526000918252604090912080546001820154919092015460ff9092169183565b60015481565b600054600160a060020a031681565b600160a060020a038116600090815260026020526040812054819060ff16151560011461026457600080fd5b600160a060020a038316600090815260026020819052604090912001549150813481151561028e57fe5b600160a060020a03851660009081526002602052604090206001015491900491508190116102bb57600080fd5b600160a060020a03808416600081815260026020908152604080832060010180548790039055600390915280822080548690039055339093168152829020805484019055903480156108fc029151600060405180830381858888f19350505050151561032657600080fd5b7fed12fd386ef6331096fee82eb252bcd8e3f36a469072400a221154fe7fd2c76e8333836000809054906101000a9004600160a060020a0316600154604051600160a060020a039586168152938516602085015260408085019390935293166060830152608082019290925260a001905180910390a1505050565b600160a060020a033316600090815260036020526040812054116103c457600080fd5b600160a060020a0333166000908152600360205260409020548290116103e957600080fd5b600082116103f657600080fd5b6000811161040357600080fd5b600160a060020a033381811660009081526002602081905260408083206001808201899055928101879055805460ff191683179055915490547f1015d42154ec3496e8f271fd08fe4d0d30cd90c5001acf81efae08bc9784dfae9487938793909116919051600160a060020a039586168152602081019490945260408085019390935293166060830152608082019290925260a001905180910390a15050565b600154905600a165627a7a723058209fd8d85c1bc637882e1f9c47c5e0e4ab962c17e66e1c857d957e53bbafce55980029`
+const TokenBin = `0x6060604052341561000f57600080fd5b60405160608061054683398101604052808051919060200180519190602001805160008054600160a060020a031916600160a060020a039687161780825590951685526003602052604085205550506001556104d590819061007190396000f30060606040526004361061008d5763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632e6cc053811461009257806357304815146100c3578063593fa374146100f9578063b6d7855a1461013e578063c25d011414610151578063ec8ac4d814610180578063ed9772b614610196578063fe3939f7146101af575b600080fd5b341561009d57600080fd5b6100b1600160a060020a03600435166101c2565b60405190815260200160405180910390f35b34156100ce57600080fd5b6100e5600160a060020a03600435166024356101dd565b604051901515815260200160405180910390f35b341561010457600080fd5b610118600160a060020a03600435166101fd565b604051921515835260208301919091526040808301919091526060909101905180910390f35b341561014957600080fd5b6100b1610223565b341561015c57600080fd5b610164610229565b604051600160a060020a03909116815260200160405180910390f35b610194600160a060020a0360043516610238565b005b34156101a157600080fd5b6101946004356024356103a1565b34156101ba57600080fd5b6100b16104a3565b600160a060020a031660009081526003602052604090205490565b600160a060020a0391909116600090815260036020526040902055600190565b600260208190526000918252604090912080546001820154919092015460ff9092169183565b60015481565b600054600160a060020a031681565b600160a060020a038116600090815260026020526040812054819060ff16151560011461026457600080fd5b600160a060020a038316600090815260026020819052604090912001549150813481151561028e57fe5b600160a060020a03851660009081526002602052604090206001015491900491508190116102bb57600080fd5b600160a060020a03808416600081815260026020908152604080832060010180548790039055600390915280822080548690039055339093168152829020805484019055903480156108fc029151600060405180830381858888f19350505050151561032657600080fd5b7fed12fd386ef6331096fee82eb252bcd8e3f36a469072400a221154fe7fd2c76e8333836000809054906101000a9004600160a060020a0316600154604051600160a060020a039586168152938516602085015260408085019390935293166060830152608082019290925260a001905180910390a1505050565b600160a060020a033316600090815260036020526040812054116103c457600080fd5b600160a060020a0333166000908152600360205260409020548290116103e957600080fd5b600082116103f657600080fd5b6000811161040357600080fd5b600160a060020a033381811660009081526002602081905260408083206001808201899055928101879055805460ff191683179055915490547f1015d42154ec3496e8f271fd08fe4d0d30cd90c5001acf81efae08bc9784dfae9487938793909116919051600160a060020a039586168152602081019490945260408085019390935293166060830152608082019290925260a001905180910390a15050565b600154905600a165627a7a723058206db53dde28e69da8d7f2c84521291c04db1ddc3ef91dcd551395651cf7dcac420029`
 
 // DeployToken deploys a new Ethereum contract, binding an instance of Token to it.
 func DeployToken(auth *bind.TransactOpts, backend bind.ContractBackend, _tokenIssuer common.Address, _tokenName [32]byte, _amountTokens *big.Int) (common.Address, *types.Transaction, *Token, error) {
@@ -364,4 +594,218 @@ func (_Token *TokenSession) SetAmoutThisToken(_someone common.Address, _newAmoun
 // Solidity: function setAmoutThisToken(_someone address, _newAmount uint256) returns(bool)
 func (_Token *TokenTransactorSession) SetAmoutThisToken(_someone common.Address, _newAmount *big.Int) (*types.Transaction, error) {
 	return _Token.Contract.SetAmoutThisToken(&_Token.TransactOpts, _someone, _newAmount)
+}
+
+// TradeTokenABI is the input ABI used to generate the binding from.
+const TradeTokenABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"getPairToken\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"someOneAccept\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"Tok\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_tokenAType\",\"type\":\"address\"},{\"name\":\"_amountA\",\"type\":\"uint256\"},{\"name\":\"_tokenBType\",\"type\":\"address\"},{\"name\":\"_amountB\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"_A_Actor\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_amountA\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"_B_Actor\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_tokenBAddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"_amountB\",\"type\":\"uint256\"}],\"name\":\"exChangeToken\",\"type\":\"event\"}]"
+
+// TradeTokenBin is the compiled bytecode used for deploying new contracts.
+const TradeTokenBin = `0x6060604052341561000f57600080fd5b60405160808061074683398101604052808051919060200180519190602001805191906020018051915083905061005385336401000000006104136100ab82021704565b1161005d57600080fd5b60068054600160a060020a03338116600160a060020a031992831617909255600180549683169682169690961790955560028054939091169290941691909117909255600355600455610152565b60008054600160a060020a031916600160a060020a038481169190911780835516632e6cc0538383604051602001526040517c010000000000000000000000000000000000000000000000000000000063ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b151561013157600080fd5b6102c65a03f1151561014257600080fd5b5050506040518051949350505050565b6105e5806101616000396000f30060606040526004361061003d5763ffffffff60e060020a6000350416634323491581146100425780635a667e7f146100a85780636a45750c146100bd575b600080fd5b341561004d57600080fd5b6100556100ec565b60405160208082528190810183818151815260200191508051906020019060200280838360005b8381101561009457808201518382015260200161007c565b505050509050019250505060405180910390f35b34156100b357600080fd5b6100bb6101f0565b005b34156100c857600080fd5b6100d0610404565b604051600160a060020a03909116815260200160405180910390f35b6100f4610561565b600080548190600181016101088382610573565b50600091825260209091206001805492909101805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03909316929092179091558154829181016101568382610573565b5060009182526020918290206002549101805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0390921691909117905581548291818102016040519081016040528092919081815260200182805480156101e457602002820191906000526020600020905b8154600160a060020a031681526001909101906020018083116101c6575b505050505091505b5090565b600080600080600060035411151561020757600080fd5b6004546000901161021757600080fd5b6007805473ffffffffffffffffffffffffffffffffffffffff191633600160a060020a0390811691909117909155600254600654610259929182169116610413565b60015460075491955061027891600160a060020a039182169116610413565b60015460065491945061029791600160a060020a039182169116610413565b6002546007549193506102b691600160a060020a039182169116610413565b6003549091508210156102c857600080fd5b6004548110156102d757600080fd5b600380546004805460009384905592905560015460075496830196958201959190940393919092039161031791600160a060020a039081169116856104ae565b5060025460075461033591600160a060020a039081169116836104ae565b5060015460065461035391600160a060020a039081169116846104ae565b5060025460065461037191600160a060020a039081169116866104ae565b506006546001546003546007546002546004547f6e0638be69a0949d215aa3013d8dae1f6533e6eb8526fb98ed393c314310b99f95600160a060020a0390811695811694938116921690604051600160a060020a03968716815294861660208601526040808601949094529185166060850152909316608083015260a082019290925260c001905180910390a150505050565b600054600160a060020a031681565b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038481169190911780835516632e6cc05383836040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b151561048d57600080fd5b6102c65a03f1151561049e57600080fd5b5050506040518051949350505050565b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03858116919091178083551663573048158484846040516020015260405160e060020a63ffffffff8516028152600160a060020a0390921660048301526024820152604401602060405180830381600087803b151561052e57600080fd5b6102c65a03f1151561053f57600080fd5b50505060405180519050156105565750600161055a565b5060005b9392505050565b60206040519081016040526000815290565b8154818355818115116105975760008381526020902061059791810190830161059c565b505050565b6105b691905b808211156101ec57600081556001016105a2565b905600a165627a7a723058205ae69ec9bd90a1a38ce1eabe23283c0ac2e9d547c61730dc0cb34ec5252298250029`
+
+// DeployTradeToken deploys a new Ethereum contract, binding an instance of TradeToken to it.
+func DeployTradeToken(auth *bind.TransactOpts, backend bind.ContractBackend, _tokenAType common.Address, _amountA *big.Int, _tokenBType common.Address, _amountB *big.Int) (common.Address, *types.Transaction, *TradeToken, error) {
+	parsed, err := abi.JSON(strings.NewReader(TradeTokenABI))
+	if err != nil {
+		return common.Address{}, nil, nil, err
+	}
+	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(TradeTokenBin), backend, _tokenAType, _amountA, _tokenBType, _amountB)
+	if err != nil {
+		return common.Address{}, nil, nil, err
+	}
+	return address, tx, &TradeToken{TradeTokenCaller: TradeTokenCaller{contract: contract}, TradeTokenTransactor: TradeTokenTransactor{contract: contract}}, nil
+}
+
+// TradeToken is an auto generated Go binding around an Ethereum contract.
+type TradeToken struct {
+	TradeTokenCaller     // Read-only binding to the contract
+	TradeTokenTransactor // Write-only binding to the contract
+}
+
+// TradeTokenCaller is an auto generated read-only Go binding around an Ethereum contract.
+type TradeTokenCaller struct {
+	contract *bind.BoundContract // Generic contract wrapper for the low level calls
+}
+
+// TradeTokenTransactor is an auto generated write-only Go binding around an Ethereum contract.
+type TradeTokenTransactor struct {
+	contract *bind.BoundContract // Generic contract wrapper for the low level calls
+}
+
+// TradeTokenSession is an auto generated Go binding around an Ethereum contract,
+// with pre-set call and transact options.
+type TradeTokenSession struct {
+	Contract     *TradeToken       // Generic contract binding to set the session for
+	CallOpts     bind.CallOpts     // Call options to use throughout this session
+	TransactOpts bind.TransactOpts // Transaction auth options to use throughout this session
+}
+
+// TradeTokenCallerSession is an auto generated read-only Go binding around an Ethereum contract,
+// with pre-set call options.
+type TradeTokenCallerSession struct {
+	Contract *TradeTokenCaller // Generic contract caller binding to set the session for
+	CallOpts bind.CallOpts     // Call options to use throughout this session
+}
+
+// TradeTokenTransactorSession is an auto generated write-only Go binding around an Ethereum contract,
+// with pre-set transact options.
+type TradeTokenTransactorSession struct {
+	Contract     *TradeTokenTransactor // Generic contract transactor binding to set the session for
+	TransactOpts bind.TransactOpts     // Transaction auth options to use throughout this session
+}
+
+// TradeTokenRaw is an auto generated low-level Go binding around an Ethereum contract.
+type TradeTokenRaw struct {
+	Contract *TradeToken // Generic contract binding to access the raw methods on
+}
+
+// TradeTokenCallerRaw is an auto generated low-level read-only Go binding around an Ethereum contract.
+type TradeTokenCallerRaw struct {
+	Contract *TradeTokenCaller // Generic read-only contract binding to access the raw methods on
+}
+
+// TradeTokenTransactorRaw is an auto generated low-level write-only Go binding around an Ethereum contract.
+type TradeTokenTransactorRaw struct {
+	Contract *TradeTokenTransactor // Generic write-only contract binding to access the raw methods on
+}
+
+// NewTradeToken creates a new instance of TradeToken, bound to a specific deployed contract.
+func NewTradeToken(address common.Address, backend bind.ContractBackend) (*TradeToken, error) {
+	contract, err := bindTradeToken(address, backend, backend)
+	if err != nil {
+		return nil, err
+	}
+	return &TradeToken{TradeTokenCaller: TradeTokenCaller{contract: contract}, TradeTokenTransactor: TradeTokenTransactor{contract: contract}}, nil
+}
+
+// NewTradeTokenCaller creates a new read-only instance of TradeToken, bound to a specific deployed contract.
+func NewTradeTokenCaller(address common.Address, caller bind.ContractCaller) (*TradeTokenCaller, error) {
+	contract, err := bindTradeToken(address, caller, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &TradeTokenCaller{contract: contract}, nil
+}
+
+// NewTradeTokenTransactor creates a new write-only instance of TradeToken, bound to a specific deployed contract.
+func NewTradeTokenTransactor(address common.Address, transactor bind.ContractTransactor) (*TradeTokenTransactor, error) {
+	contract, err := bindTradeToken(address, nil, transactor)
+	if err != nil {
+		return nil, err
+	}
+	return &TradeTokenTransactor{contract: contract}, nil
+}
+
+// bindTradeToken binds a generic wrapper to an already deployed contract.
+func bindTradeToken(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor) (*bind.BoundContract, error) {
+	parsed, err := abi.JSON(strings.NewReader(TradeTokenABI))
+	if err != nil {
+		return nil, err
+	}
+	return bind.NewBoundContract(address, parsed, caller, transactor), nil
+}
+
+// Call invokes the (constant) contract method with params as input values and
+// sets the output to result. The result type might be a single field for simple
+// returns, a slice of interfaces for anonymous returns and a struct for named
+// returns.
+func (_TradeToken *TradeTokenRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
+	return _TradeToken.Contract.TradeTokenCaller.contract.Call(opts, result, method, params...)
+}
+
+// Transfer initiates a plain transaction to move funds to the contract, calling
+// its default method if one is available.
+func (_TradeToken *TradeTokenRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _TradeToken.Contract.TradeTokenTransactor.contract.Transfer(opts)
+}
+
+// Transact invokes the (paid) contract method with params as input values.
+func (_TradeToken *TradeTokenRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _TradeToken.Contract.TradeTokenTransactor.contract.Transact(opts, method, params...)
+}
+
+// Call invokes the (constant) contract method with params as input values and
+// sets the output to result. The result type might be a single field for simple
+// returns, a slice of interfaces for anonymous returns and a struct for named
+// returns.
+func (_TradeToken *TradeTokenCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
+	return _TradeToken.Contract.contract.Call(opts, result, method, params...)
+}
+
+// Transfer initiates a plain transaction to move funds to the contract, calling
+// its default method if one is available.
+func (_TradeToken *TradeTokenTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _TradeToken.Contract.contract.Transfer(opts)
+}
+
+// Transact invokes the (paid) contract method with params as input values.
+func (_TradeToken *TradeTokenTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
+	return _TradeToken.Contract.contract.Transact(opts, method, params...)
+}
+
+// Tok is a free data retrieval call binding the contract method 0x6a45750c.
+//
+// Solidity: function Tok() constant returns(address)
+func (_TradeToken *TradeTokenCaller) Tok(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _TradeToken.contract.Call(opts, out, "Tok")
+	return *ret0, err
+}
+
+// Tok is a free data retrieval call binding the contract method 0x6a45750c.
+//
+// Solidity: function Tok() constant returns(address)
+func (_TradeToken *TradeTokenSession) Tok() (common.Address, error) {
+	return _TradeToken.Contract.Tok(&_TradeToken.CallOpts)
+}
+
+// Tok is a free data retrieval call binding the contract method 0x6a45750c.
+//
+// Solidity: function Tok() constant returns(address)
+func (_TradeToken *TradeTokenCallerSession) Tok() (common.Address, error) {
+	return _TradeToken.Contract.Tok(&_TradeToken.CallOpts)
+}
+
+// GetPairToken is a paid mutator transaction binding the contract method 0x43234915.
+//
+// Solidity: function getPairToken() returns(address[])
+func (_TradeToken *TradeTokenTransactor) GetPairToken(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _TradeToken.contract.Transact(opts, "getPairToken")
+}
+
+// GetPairToken is a paid mutator transaction binding the contract method 0x43234915.
+//
+// Solidity: function getPairToken() returns(address[])
+func (_TradeToken *TradeTokenSession) GetPairToken() (*types.Transaction, error) {
+	return _TradeToken.Contract.GetPairToken(&_TradeToken.TransactOpts)
+}
+
+// GetPairToken is a paid mutator transaction binding the contract method 0x43234915.
+//
+// Solidity: function getPairToken() returns(address[])
+func (_TradeToken *TradeTokenTransactorSession) GetPairToken() (*types.Transaction, error) {
+	return _TradeToken.Contract.GetPairToken(&_TradeToken.TransactOpts)
+}
+
+// SomeOneAccept is a paid mutator transaction binding the contract method 0x5a667e7f.
+//
+// Solidity: function someOneAccept() returns()
+func (_TradeToken *TradeTokenTransactor) SomeOneAccept(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _TradeToken.contract.Transact(opts, "someOneAccept")
+}
+
+// SomeOneAccept is a paid mutator transaction binding the contract method 0x5a667e7f.
+//
+// Solidity: function someOneAccept() returns()
+func (_TradeToken *TradeTokenSession) SomeOneAccept() (*types.Transaction, error) {
+	return _TradeToken.Contract.SomeOneAccept(&_TradeToken.TransactOpts)
+}
+
+// SomeOneAccept is a paid mutator transaction binding the contract method 0x5a667e7f.
+//
+// Solidity: function someOneAccept() returns()
+func (_TradeToken *TradeTokenTransactorSession) SomeOneAccept() (*types.Transaction, error) {
+	return _TradeToken.Contract.SomeOneAccept(&_TradeToken.TransactOpts)
 }
