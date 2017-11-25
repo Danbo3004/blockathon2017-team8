@@ -14,7 +14,7 @@ contract TradeToken {
   address A_Actor;
   address B_Actor;
 
-  event exChangeToken(address _A_Actor, bytes32 _tokenNameA, uint _amountA, address _B_Actor, bytes32 _tokenNameB, uint _amountB);
+  event exChangeToken(address _A_Actor, address _tokenAddress, uint _amountA, address _B_Actor, address _tokenBAddress, uint _amountB);
 
   function TradeToken(address _tokenAType, uint _amountA, address _tokenBType, uint _amountB) public {
       require(getTotalAmountToken(_tokenAType, msg.sender) > _amountA);
@@ -55,12 +55,14 @@ contract TradeToken {
     setTotalAmountToken(TokenAType, A_Actor, totalTokenA_ofA);
     setTotalAmountToken(TokenBType, A_Actor, totalTokenB_ofA);
 
-    exChangeToken(A_Actor, getThisTokenName(TokenAType), AmountA, B_Actor, getThisTokenName(TokenBType), AmountB);
+    exChangeToken(A_Actor, TokenAType, AmountA, B_Actor, TokenBType, AmountB);
   }
 
-  function getThisTokenName(address _tokenAddress) private returns (bytes32) {
-    Tok = Token(_tokenAddress);
-    return  Tok.getNameThisToken();
+  function getPairToken() returns (address[]) {
+    address[] pairAddress;
+    pairAddress.push(TokenAType);
+    pairAddress.push(TokenBType);
+    return pairAddress;
   }
 
   function getTotalAmountToken(address _tokenAddress, address _someone) private returns (uint) {
