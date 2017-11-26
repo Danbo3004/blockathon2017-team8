@@ -55,6 +55,9 @@ var (
 // }
 
 func RegisterCompany(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	defer closeRequest(r)
 	var company model.Company
 
@@ -104,6 +107,9 @@ func RegisterCompany(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCompany(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	defer closeRequest(r)
 
 	companyID := pathParam(r, "id")
@@ -123,6 +129,9 @@ type contract struct {
 }
 
 func GetAllContracts(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	defer closeRequest(r)
 
 	// deploy a smart contract
